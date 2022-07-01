@@ -1,5 +1,3 @@
-package service;
-
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -32,11 +30,11 @@ public class LayoutCase1 {
                     HtmlElement nome = item.getFirstByXPath("//h2[@class='ui-search-item__title']");
                     HtmlElement preco = item.getFirstByXPath("//span[@class='price-tag-amount']");
 
-                    String nomeProduto = nome == null ? "Produto sem nome." : nome.asNormalizedText();
+                    String nomeProduto = nome == null ? "model.Produto sem nome." : nome.asNormalizedText();
                     String precoProduto = preco == null ? "R$0.0" : preco.asNormalizedText();
 
-                    System.out.println("Nome Produto: " + nomeProduto);
-                    System.out.println("Preço Produto: " + precoProduto);
+                    System.out.println("Nome model.Produto: " + nomeProduto);
+                    System.out.println("Preço model.Produto: " + precoProduto);
 
                     // Verificar a existencia de um desconto
 
@@ -54,7 +52,7 @@ public class LayoutCase1 {
 
             } else {
 
-                System.out.println("Produto não encontrado.");
+                System.out.println("model.Produto não encontrado.");
             }
         } catch (Exception e) {
 

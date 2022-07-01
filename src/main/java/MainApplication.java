@@ -1,13 +1,5 @@
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.Scanner;
-import java.util.List;
-
-
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import service.LayoutCase1;
 
 
 public class MainApplication{

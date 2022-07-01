@@ -6,9 +6,13 @@ public class Produto {
     private String valor;
     private String desconto;
 
-    public Produto(){
-        super();
+    public Produto(String nome, String valor, String desconto){
+        this.setNome(nome);
+        this.setValor(valor);
+        this.setDesconto(desconto);
     }
+
+    public Produto(){}
 
     //#region Getters and Setters
     public String getNome() {
