@@ -5,7 +5,10 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Scrapp {
 
@@ -20,33 +23,50 @@ public class Scrapp {
     }
 
 
-    private ArrayList<Produto> validTag(HtmlElement item) {
+    public ArrayList<Produto> validTag(String itemURL) {
 
-        String pageURL = mlURL + item;
+        ArrayList<Produto> itemArray = new ArrayList<>();
+        ArrayList<String> teste = new ArrayList<>();
 
         try {
-
+            String pageURL = mlURL + URLEncoder.encode(itemURL,"UTF-8");
             HtmlPage page = client.getPage(pageURL);
 
+
             String xPathAddr = "//ol[@class='ui-search-layout ui-search-layout--stack']";
+            List<?> itemResult = (List<?>) page.getByXPath(xPathAddr);
 
-            if(item.getFirstByXPath(xPathAddr)) {
 
-                ArrayList<Produto> items = new ArrayList<Produto>(item.getByXPath("//li*[@class='ui-search-layout__item']"));
 
-                for(int i = 0; i < items.size(); i++){
+            if(!itemResult.contains(xPathAddr)) {
+
+                for(int i = 0; i < itemResult.size(); i++){
+
+                    HtmlElement item = (HtmlElement) itemResult.get(i);
+
+                    String produtoNome = getName(item) == null ? "Sem nome" : getName(item);
+                    String produtoPreco = getPrice(item) == null ? "Sem preço" : getPrice(item);
+                    String produtoDiscount = getDiscount(item) == null ? "Sem desconto" : getDiscount(item);
 
                     Produto newItem = new Produto(
-
+                            produtoNome,
+                            produtoPreco,
+//                            produtoDiscount
+                            "0,0"
                     );
 
-                    ArrayList<Produto> itemArray = new ArrayList<>();
+                    System.out.println(produtoNome);
+                    System.out.println(produtoPreco);
+                    System.out.println(produtoDiscount);
+
                     itemArray.add(newItem);
+
                     return itemArray;
                 }
 
             } else {
 
+                System.out.println("algum");
 
             }
 
@@ -56,14 +76,27 @@ public class Scrapp {
 
         }
 
-        return null;
+        return itemArray;
     }
 
     private static String getName(HtmlElement item){
 
         String xPathAddr = "//h2[@class='ui-search-item__title']";
         HtmlElement itemName = (HtmlElement) item.getFirstByXPath(xPathAddr);
-        return (itemName)
+        return (itemName == null) ? "null" : itemName.asNormalizedText();
+    }
+
+    private static String getPrice(HtmlElement item){
+        String xPathAddr = "//span[@class='price-tag-amount']";
+        HtmlElement itemPrice = (HtmlElement) item.getFirstByXPath(xPathAddr);
+        return  (itemPrice == null) ? "null" : itemPrice.asNormalizedText();
+    }
+
+    private static String getDiscount(HtmlElement item) {
+        String xPathAddr = "//span[2][@class='price-tag-amount']";
+        HtmlElement itemDiscount = (HtmlElement) item.getFirstByXPath(xPathAddr);
+        return  (itemDiscount == null) ? "null" : itemDiscount.asNormalizedText();
     }
 
 }
+
