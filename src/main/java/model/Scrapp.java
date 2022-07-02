@@ -1,5 +1,6 @@
 package model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -26,14 +27,13 @@ public class Scrapp {
     public ArrayList<Produto> validTag(String itemURL) {
 
         ArrayList<Produto> itemArray = new ArrayList<>();
-        ArrayList<String> teste = new ArrayList<>();
 
         try {
             String pageURL = mlURL + URLEncoder.encode(itemURL,"UTF-8");
             HtmlPage page = client.getPage(pageURL);
 
 
-            String xPathAddr = "//*[@id='root-app']/div/div[2]/section/ol/li[1]";
+            String xPathAddr = "//li[1]";
             List<?> itemResult = (List<?>) page.getByXPath(xPathAddr);
 
 
@@ -51,22 +51,20 @@ public class Scrapp {
                     Produto newItem = new Produto(
                             produtoNome,
                             produtoPreco,
-//                            produtoDiscount
-                            "0,0"
+                            produtoDiscount
                     );
 
-                    System.out.println(produtoNome);
-                    System.out.println(produtoPreco);
-                    System.out.println(produtoDiscount);
+                    ObjectMapper mapp = new ObjectMapper();
+                    String jsonString = mapp.writeValueAsString(newItem);
+                    System.out.println(jsonString);
 
                     itemArray.add(newItem);
-
                     return itemArray;
                 }
 
             } else {
 
-                System.out.println("algum");
+                return null;
 
             }
 
@@ -88,19 +86,10 @@ public class Scrapp {
      * */
     private static String getName(HtmlElement item){
 
-        String xPathAddr = "/html/body/main/div/div[2]/section/ol/li[1]/div/div/div[2]/div[2]/a[1]/h2";
+        String xPathAddr = "//h2"; // Campo localizado o item
         HtmlElement itemName = (HtmlElement) item.getFirstByXPath(xPathAddr);
-        String x = (itemName == null) ? "null" : itemName.asNormalizedText();
 
-        if(x.equals("null")){
-
-            xPathAddr = "//*[@id=\'root-app\']/div/div[2]/section/ol[1]/li[1]/div/div/a/div/div[5]/h2";
-            itemName = (HtmlElement) item.getFirstByXPath(xPathAddr);
-
-            return (itemName == null) ? "null" : itemName.asNormalizedText();
-        }
-
-        return x;
+        return  (itemName == null) ? "null" : itemName.asNormalizedText(); // Enviando nome.
     }
 
     /**
@@ -127,20 +116,21 @@ public class Scrapp {
      * */
     private static String getDiscount(HtmlElement item) {
 
-        String xPathAddr = "//*[@id=\'root-app\']/div/div[2]/section/ol/li[1]/div/div/div[2]/div[3]/div[1]/div[1]/div/div/div/span[1]/span[2]/span[2]";
-        HtmlElement itemDiscount = (HtmlElement) item.getFirstByXPath(xPathAddr);
-        String x = (itemDiscount == null) ? "null" : itemDiscount.asNormalizedText();
+        String divPath = "//s[@div='price-tag ui-search-price__part ui-search-price__original-value price-tag__disabled']";
+        List<?> discountResult = (List<?>) item.getByXPath(divPath);
 
-        if(x.equals("null")) {
+        if(!discountResult.contains(divPath)) {
 
-            xPathAddr = "//*[@id=\'root-app\']/div/div[2]/section/ol[1]/li[1]/div/div/a/div/div[2]/div/div/div/span[1]/span[2]";
-            itemDiscount = (HtmlElement)  item.getFirstByXPath(xPathAddr);
+            String xPathAddr = "//span[@class='price-tag ui-search-price__part']/span[2]";
+            HtmlElement discount = (HtmlElement) item.getFirstByXPath(xPathAddr);
+            return (discount == null) ? "Sem desconto!!" : discount.asNormalizedText();
+        } else {
 
-            return (itemDiscount == null) ? "null" : itemDiscount.asNormalizedText();
+            return "erro";
         }
 
-        return  x;
     }
+
 
 }
 

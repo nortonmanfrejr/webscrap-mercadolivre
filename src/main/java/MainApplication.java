@@ -10,13 +10,9 @@ public class MainApplication{
 
     public static void main(String[] args) throws IOException {
 
-        Scrapp scrapp = new Scrapp();
+       Scrapp sc = new Scrapp();
 
-        System.out.println("GRID LAYOUT");
-        System.out.println(scrapp.validTag("Monitor"));
-
-        System.out.println("STACK LAYOUT");
-        System.out.println(scrapp.validTag("Samsung"));
+       sc.validTag("monitor");
 
     }
 
