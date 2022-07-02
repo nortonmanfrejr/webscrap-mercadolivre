@@ -11,8 +11,13 @@ public class MainApplication{
     public static void main(String[] args) throws IOException {
 
         Scrapp scrapp = new Scrapp();
-        String prod = "samsung";
-        System.out.println(scrapp.validTag(prod));
+
+        System.out.println("GRID LAYOUT");
+        System.out.println(scrapp.validTag("Monitor"));
+
+        System.out.println("STACK LAYOUT");
+        System.out.println(scrapp.validTag("Samsung"));
+
     }
 
 
