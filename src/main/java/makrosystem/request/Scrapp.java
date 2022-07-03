@@ -1,15 +1,18 @@
-package model;
+package makrosystem.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+
+import static makrosystem.request.MainApplication.*;
 
 public class Scrapp {
 
@@ -47,6 +50,11 @@ public class Scrapp {
                     String produtoNome = getName(item) == null ? "Sem nome" : getName(item);
                     String produtoPreco = getPrice(item) == null ? "Sem preço" : getPrice(item);
                     String produtoDiscount = getDiscount(item) == null ? "Sem desconto" : getDiscount(item);
+
+
+                    lbNome.setText("Produto: " + produtoNome);
+                    lbPrice.setText("Preço: " + produtoPreco);
+                    lbDiscount.setText("Desconto: " + produtoDiscount);
 
                     Produto newItem = new Produto(
                             produtoNome,
@@ -129,6 +137,13 @@ public class Scrapp {
             return "erro";
         }
 
+    }
+
+    public static VBox printLabel(){
+
+        VBox box = new VBox();
+        box.getChildren().addAll(lbNome,lbPrice,lbDiscount);
+        return box;
     }
 
 
