@@ -33,8 +33,15 @@ e caso exista valor promocional span class="price-tag ui-search-price__part".
 <img src="img_1.png">
 <hr>
 
+<h4> Interface da Aplicação </h4>
+<h6>A interface da aplicação foi construida de maneira simples em somente uma classe, tendo 4 Labels, 1 TextField e 1 Button</h6>
+
+<img src="img_2.png">
+
+<h6> Caso o produto não tenha descontos eu optei por deixar que fosse impresso o valor sem desconto no campo abaixo. </h6>
+<img src="img_3.png">
 <h5> Dependencias adicionais </h5>
-<h6> htmlunit 2.62.0 <br> jackson.core 2.13.3 (jackson-databind)</h6>
+<h6> Java 11<br>htmlunit 2.62.0 <br> jackson.core 2.13.3 (jackson-databind)</h6>
 
 <h5> Artigos de base</h5>
 <a href="https://escoladedados.org/tutoriais/xpath-para-raspagem-de-dados-em-html/"> Introdução a Raspagem de Dados. </a>
